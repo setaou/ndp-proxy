@@ -1,0 +1,77 @@
+#!/bin/sh
+#
+# chkconfig: 345 99 01
+# description: ndp-proxy daemon
+#
+### BEGIN INIT INFO
+# Provides: ndp-proxy
+# Required-Start: $network
+# Required-Stop: $network
+# Default-Start: 3 4 5
+# Short-Description: ndp-proxy daemon
+# Description: ndp-proxy daemon
+### END INIT INFO
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+DAEMON_NAME=ndp-proxy
+DAEMON_PROCESS=ndp-proxy
+DAEMON_BINARY=ndp-proxy
+
+LOCK_FILE=/var/lock/subsys/$DAEMON_NAME
+PID_FILE=/var/run/$DAEMON_NAME.pid
+
+RETVAL=0
+
+# default option, they can be overriden in /etc/sysconfig/$DAEMON_NAME or /etc/default/$DAEMON_NAME
+OPTIONS=-d
+[ -f /etc/sysconfig/$DAEMON_NAME ] && . /etc/sysconfig/$DAEMON_NAME
+[ -f /etc/default/$DAEMON_NAME ] && . /etc/default/$DAEMON_NAME
+
+start() {
+    [ -f $LOCK_FILE ] && return
+
+    echo -n "Starting $DAEMON_NAME: "
+    # use --user to run the daemon under the specified uid
+    daemon $DAEMON_BINARY $OPTIONS
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $LOCK_FILE
+}
+
+stop() {
+    echo -n "Shutting down $DAEMON_NAME: "
+    killproc -p $PID_FILE $DAEMON_PROCESS
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $LOCK_FILE
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $DAEMON_PROCESS
+        RETVAL=$?
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    condrestart)
+        if [ -f $LOCK_FILE ]; then
+            stop
+            start
+        fi
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|condrestart|status}"
+        RETVAL=1
+esac
+
+exit $RETVAL

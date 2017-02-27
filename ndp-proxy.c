@@ -212,7 +212,7 @@ int main(int argc, char **argv)
 		err(1, "socket");
 
 	/* Bind to interface */
-	if ( setsockopt(sock, SOL_SOCKET, SO_BINDTODEVICE , interface, 3 ) < 0 )
+	if ( setsockopt(sock, SOL_SOCKET, SO_BINDTODEVICE , interface, strlen(interface) ) < 0 )
 		err(1, "bindtodevice");
 
 	/* Get interface MAC adress */

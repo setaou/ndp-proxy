@@ -376,7 +376,7 @@ int forge_icmp6_na (unsigned char *buffer, unsigned char *srcmac, unsigned char 
 	} __attribute__((__packed__)) packet;
 
 	/* lla */
-	memcpy(&packet.na_opt_lla, lla, sizeof(struct in6_addr));
+	memcpy(&packet.na_opt_lla, lla, ETH_ALEN);
 
 	/* Neighbor Advertisement Option (source link layer address) */
 	packet.na_opt.nd_opt_type = 2;

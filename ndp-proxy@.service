@@ -7,6 +7,7 @@ ExecStart=/usr/sbin/ndp-proxy $OPTIONS
 EnvironmentFile=/etc/ndp-proxy/%i
 
 # hardening
+CapabilityBoundingSet=CAP_NET_RAW CAP_NET_ADMIN
 PrivateTmp=yes
 ProtectSystem=strict
 PrivateDevices=yes
@@ -19,7 +20,6 @@ UMask=022
 ProtectHome=tmpfs
 InaccessiblePaths=/var /opt /home /root /mnt /media
 PrivateIPC=true
-PrivateUsers=true
 ProtectHostname=true
 ProtectClock=true
 ProtectKernelTunables=true

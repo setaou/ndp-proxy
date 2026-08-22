@@ -1,1 +1,4 @@
 ndp-proxy
+debian/files
+debian/*debhelper*
+debian/*substvars

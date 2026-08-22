@@ -1,0 +1,40 @@
+[Unit]
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/ndp-proxy $OPTIONS
+EnvironmentFile=/etc/ndp-proxy/%i
+
+# hardening
+CapabilityBoundingSet=CAP_NET_RAW CAP_NET_ADMIN
+PrivateTmp=yes
+ProtectSystem=strict
+PrivateDevices=yes
+LockPersonality=true
+ProtectClock=true
+ProtectProc=invisibble
+ProcSubset=pid
+NoNewPrivileges=true
+UMask=022
+ProtectHome=tmpfs
+InaccessiblePaths=/var /opt /home /root /mnt /media
+PrivateIPC=true
+ProtectHostname=true
+ProtectClock=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+MemoryDenyWriteExecute=true
+RestrictSUIDSGID=true
+PrivateMounts=true
+
+#limiting
+MemoryHigh=10M
+MemoryMax=20M
+MemorySwapMax=10M
+CPUQuota=5%
+
+[Install]
+WantedBy=multi-user.target

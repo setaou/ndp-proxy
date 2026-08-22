@@ -1,0 +1,20 @@
+Source: ndp-proxy
+Section: unknown
+Priority: optional
+Maintainer: setaou
+Rules-Requires-Root: no
+Build-Depends:
+ debhelper-compat (= 13),
+Standards-Version: 4.6.2
+Homepage: https://github.com/setaou/ndp-proxy
+
+Package: ndp-proxy
+Architecture: any
+Multi-Arch: foreign
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends},
+Description: Answers nd for a given network
+ This software is an answer to the fact that the Linux kernel does
+ not support to proxy NDP packets for a whole IPv6 range but only
+ for a given set of addresses.
